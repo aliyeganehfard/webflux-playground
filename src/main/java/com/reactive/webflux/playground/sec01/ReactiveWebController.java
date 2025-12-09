@@ -1,6 +1,8 @@
 package com.reactive.webflux.playground.sec01;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,13 +18,23 @@ public class ReactiveWebController {
             .baseUrl("http://localhost:7070")
             .build();
 
-    @GetMapping("products")
+    @GetMapping(value = "products")
     public Flux<Product> getProducts() {
         return this.webClient.get()
+                .uri("/demo01/products/notorious")
+                .retrieve()
+                .bodyToFlux(Product.class)
+                .onErrorComplete()
+                .doOnNext(p -> log.info("received: {}", p));
+    }
+
+    @GetMapping(value = "products/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public ResponseEntity<Flux<Product>> getProductsStream() {
+        return ResponseEntity.ok( this.webClient.get()
                 .uri("/demo01/products")
                 .retrieve()
                 .bodyToFlux(Product.class)
-                .doOnNext(p -> log.info("received: {}", p));
+                .doOnNext(p -> log.info("received: {}", p)));
     }
 
 }

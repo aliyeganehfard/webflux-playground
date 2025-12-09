@@ -1,1 +1,10 @@
-spring.application.name=webflux-playground
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/sec02
+    username: yeganefard
+    password: ali.1381
+  sql:
+    init:
+      platform: postgres
+      mode: always
+sec: 02
