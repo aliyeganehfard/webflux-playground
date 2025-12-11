@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/sec02
     username: yeganefard
@@ -7,4 +9,4 @@ spring:
     init:
       platform: postgres
       mode: always
-sec: 02
+sec: sec03
