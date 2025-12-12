@@ -2,15 +2,19 @@ package com.reactive.webflux.playground.sec03.controller;
 
 import com.reactive.webflux.playground.sec03.dto.CustomerDto;
 import com.reactive.webflux.playground.sec03.exception.ApplicationExceptions;
+import com.reactive.webflux.playground.sec03.filter.Category;
 import com.reactive.webflux.playground.sec03.service.CustomerService;
 import com.reactive.webflux.playground.sec03.validator.RequestValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
@@ -19,7 +23,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public Flux<CustomerDto> findAll() {
+    public Flux<CustomerDto> findAll(@RequestAttribute("category") Category category) {
+        log.info(category.name());
         return this.customerService.getAllCustomers();
     }
 
