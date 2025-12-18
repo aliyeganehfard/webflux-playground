@@ -9,4 +9,4 @@ spring:
     init:
       platform: postgres
       mode: always
-sec: sec03
+sec: sec08
